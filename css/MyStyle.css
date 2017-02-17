@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Play');
+
+body, html { margin: 0px;}
+
+#gameCanvas{
+    display: block;
+    height: 100%;
+    width: auto;
+    margin: auto;
+}
