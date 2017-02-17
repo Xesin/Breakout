@@ -5,6 +5,8 @@ function initGame(argument) {
     
     game.frameLimit = 60;														
     game.setBackgroundColor('black');	
+    game.scale.scaleType = XEngine.Scale.SHOW_ALL;
+    game.scale.updateScale();
     game.state.add('loading', Loading);												//Añadimos el estado del menú
     game.state.start('loading');
 }
@@ -20,7 +22,8 @@ Loading.prototype = {
 	},
 	
 	start: function () {
-	    
+	    var text = this.game.add.text(50,50, 'Cosa', 20, 'Arial', 'white');
+	    text.anchor.setTo(0.5);
 	},
 	
 	update : function (deltaTime) {
