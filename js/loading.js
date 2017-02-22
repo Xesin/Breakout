@@ -31,7 +31,13 @@ Loading.prototype = {
 		this.porcentaje = this.game.add.text(this.game.width/2,this.game.height/2, 'Cosa',textStyle);
 	    this.porcentaje.anchor.setTo(0.5);
 	    this.circulo = this.game.add.circle(this.game.width/2,this.game.height/2, 100, 'red', 5, 'white', false,0, 0.1);
-	    this.game.load.image('arkanoid', 'img/Arkanoid.png');
+	    this.game.load.image('player', 'img/paddleRed.png');
+	    this.game.load.image('blockRed', 'img/block_red.png');
+	    this.game.load.image('blockGreen', 'img/block_green.png');
+	    this.game.load.image('blockPurple', 'img/block_purple.png');
+	    this.game.load.image('blockBlue', 'img/block_blue.png');
+	    this.game.load.image('ball', 'img/ballBlue.png');
+	    this.game.load.image('level1', 'img/level1.png');
 	    this.game.load.onCompleteFile.add(this.onCompleteFile, this);
 	},
 	

@@ -8,18 +8,15 @@ var Player = function(game, posX, posY, sprite){
 };
 
 
-Player.prototype = Object.create(XEngine.Sprite);
+Player.prototype = Object.create(XEngine.Sprite.prototype);
 Player.prototype.constructor = Player;
 
-Player.prototypeExtends = {
-    update: function (deltaTime) {
+Player.prototype.update  = function (deltaTime) {
         this.updateMovement();
-    },
+}
     
-    updateMovement: function () {
-        this.position.x = this.input.pointer.x;    
-    },
-    
-};
+Player.prototype.updateMovement = function () {
+        this.position.x = this.game.input.pointer.x;    
+}
 
-Object.apply(Player.prototype, Player.prototypeExtends);
+//Object.assign(Player.prototype, Player.prototypeExtends);
