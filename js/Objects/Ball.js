@@ -1,6 +1,6 @@
 /* global XEngine Player*/
 
-var Ball = function(game, posX, posY, sprite){
+var Ball = function(game, posX, posY, sprite, player){
     XEngine.Sprite.call(this, game, posX, posY, sprite);
     this.anchor.setTo(0.5);
     this.game.physics.enablePhysics(this);
@@ -9,6 +9,8 @@ var Ball = function(game, posX, posY, sprite){
     this.body.restitution = 1;
     this.directionAngle = 0;
     this.alreadyCollide = false;
+    this.inPlatForm = false;
+    this.playerRef = player;
 };
 
 
@@ -16,24 +18,37 @@ Ball.prototype = Object.create(XEngine.Sprite.prototype);
 Ball.prototype.constructor = Ball;
 
 Ball.prototype.launch = function () {
-    this.body.velocity.x = 0;
-    this.body.velocity.y = -250;
+    this.body.velocity.x = 250;
+    this.body.velocity.y = 400;
+};
+
+Ball.prototype.launchFromPlatform = function () {
+    this.body.velocity.x = 150;
+    this.body.velocity.y = -400;
+    this.inPlatForm = false;
 };
 
 Ball.prototype.update = function () {
     this.alreadyCollide = false;
-    if(this.body.max.x > this.game.width){
-        this.body.position.x = this.game.width - this.width;
+    if(this.inPlatForm){
+        this.body.position.x = this.playerRef.position.x;
+        this.body.position.y = this.playerRef.position.y - (this.playerRef.height / 2) - (this.width / 2);
+    }else{
+        if(this.body.max.x > this.game.width){                                      //Colisiona con el mundo por la derecha
+        this.body.position.x = this.game.width - this.width / 2;
         this.body.velocity.x *= -1;
-    }else if (this.body.min.x < 0){
-        this.body.position.x = this.width;
-        this.body.velocity.x *= -1;
-    }else if(this.body.max.y > this.game.height){
-        this.destroy();
-    }else if(this.body.min.y < 0){
-        this.body.position.y = this.height;
-        this.body.velocity.y *= -1;
+        }else if (this.body.min.x < 0){                                             //Colisiona con el mundo por la izquierda
+            this.body.position.x = this.width / 2;
+            this.body.velocity.x *= -1;
+        }else if(this.body.max.y > this.game.height){                               //Colisiona con el mundo por abajo
+            this.game.state.currentState.lostBall();
+        }else if(this.body.min.y < 0){                                              //Colisiona con el mundo por arriba
+            this.body.position.y = this.height / 2;
+            this.body.velocity.y *= -1;
+        }
     }
+    
+    
 };
     
 Ball.prototype.onCollision = function (other) {

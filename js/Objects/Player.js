@@ -5,6 +5,7 @@ var Player = function(game, posX, posY, sprite){
     this.anchor.setTo(0.5);
     this.game.physics.enablePhysics(this);
     this.body.gravity = 0;
+    this.lifes = 3;
 };
 
 

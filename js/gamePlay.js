@@ -1,5 +1,5 @@
 /* global XEngine Player Ball*/
-
+var currentLevel = 1;
 var GamePlay = function (game) {
 	this.player = null;
 	this.ball = null;
@@ -9,6 +9,7 @@ var GamePlay = function (game) {
 GamePlay.prototype = {
 	
 	start: function () {
+		this.game.add.sprite(0,0, 'background');
 		this.game.physics.startSystem();
 		this.player = new Player(this.game, this.game.width /2, 650, 'player');
 		this.game.add.existing(this.player);
@@ -16,12 +17,21 @@ GamePlay.prototype = {
 		this.setupLevel(1);
 		this.spawnBall();
 		this.ball.launch();
-		
+		this.win = false;
 	},
 	
 	update : function (deltaTime) {
-		this.game.physics.overlap(this.ball, this.player);
-		this.game.physics.overlap(this.ball, this.bricks);
+		if(!this.ball.inPlatForm){
+			this.game.physics.overlap(this.ball, this.player);
+			this.game.physics.overlap(this.ball, this.bricks);
+		}
+		if(this.bricks.childCount() == 0 && this.win == false){
+			currentLevel++;
+			this.win = true;
+			this.game.input.onInputDown.addOnce(function(){
+				this.game.state.restart();
+			}, this);
+		}
 	},
 	
 	setupLevel: function (level) {
@@ -54,6 +64,15 @@ GamePlay.prototype = {
 	},
 	
 	spawnBall: function () {
-		this.ball = this.game.add.existing(new Ball(this.game, this.game.width / 2 - 30, this.game.height /2, 'ball'));
+		this.ball = this.game.add.existing(new Ball(this.game, this.game.width / 2 - 30, this.game.height /2, 'ball', this.player));
+	},
+	
+	lostBall:function () {
+		this.ball.body.velocity.setTo(0);
+		this.ball.inPlatForm = true;	
+		this.player.lifes--;
+		this.game.input.onInputDown.addOnce(function () {
+			this.ball.launchFromPlatform();
+		},this);
 	},
 };
