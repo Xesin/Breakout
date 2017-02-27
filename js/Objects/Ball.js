@@ -35,14 +35,17 @@ Ball.prototype.update = function () {
         this.body.position.y = this.playerRef.position.y - (this.playerRef.height / 2) - (this.width / 2);
     }else{
         if(this.body.max.x > this.game.width){                                      //Colisiona con el mundo por la derecha
-        this.body.position.x = this.game.width - this.width / 2;
-        this.body.velocity.x *= -1;
+            this.game.add.audio('hit', true);
+            this.body.position.x = this.game.width - this.width / 2;
+            this.body.velocity.x *= -1;
         }else if (this.body.min.x < 0){                                             //Colisiona con el mundo por la izquierda
+            this.game.add.audio('hit', true);
             this.body.position.x = this.width / 2;
             this.body.velocity.x *= -1;
         }else if(this.body.max.y > this.game.height){                               //Colisiona con el mundo por abajo
             this.game.state.currentState.lostBall();
         }else if(this.body.min.y < 0){                                              //Colisiona con el mundo por arriba
+            this.game.add.audio('hit', true); 
             this.body.position.y = this.height / 2;
             this.body.velocity.y *= -1;
         }
@@ -53,6 +56,10 @@ Ball.prototype.update = function () {
     
 Ball.prototype.onCollision = function (other) {
     if(this.alreadyCollide) return;
+    var audio = this.game.add.audio('hit', true);
+    audio.onComplete.addOnce(function () {
+        audio.destroy();
+    });
     if(Player.prototype.isPrototypeOf(other)){
         this.alreadyCollide = true;
         if(this.body.velocity.y < 0) return;                                    //No hacer nada con la colisión si la bola ya está yendo hacía los bloques

@@ -1,4 +1,4 @@
-/* global XEngine */
+/* global XEngine textStyle*/
 
 var Menu = function (game) {
 

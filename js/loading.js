@@ -5,7 +5,7 @@ var textStyle = {
 	font_size: 20,
 	font_color: 'white',
 	
-}
+};
 
 function initGame(argument) {
     var game = new XEngine.Game(1280,720, 'gameCanvas');
@@ -28,7 +28,7 @@ var Loading = function (game) {
 Loading.prototype = {
 	
 	preload: function () {														//Cargamos los assets del juego
-		this.porcentaje = this.game.add.text(this.game.width/2,this.game.height/2, 'Cosa',textStyle);
+		this.porcentaje = this.game.add.text(this.game.width/2,this.game.height/2, '0%',textStyle);
 	    this.porcentaje.anchor.setTo(0.5);
 	    this.circulo = this.game.add.circle(this.game.width/2,this.game.height/2, 100, 'red', 5, 'white', false,0, 0.1);
 	    this.game.load.image('player', 'img/paddleRed.png');
@@ -40,6 +40,8 @@ Loading.prototype = {
 	    this.game.load.image('ball', 'img/ballBlue.png');
 	    this.game.load.image('level1', 'img/level1.png');
 	    this.game.load.image('level2', 'img/level2.png');
+	    this.game.load.image('level3', 'img/level3.png');
+	    this.game.load.audio('hit', 'sound/hit.wav');
 	    this.game.load.onCompleteFile.add(this.onCompleteFile, this);
 	},
 	
