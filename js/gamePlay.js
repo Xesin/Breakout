@@ -26,11 +26,19 @@ GamePlay.prototype = {
 		this.spawnBall();
 		this.ball.launch();
 		this.win = false;
+		if(currentLevel < 3){
+			this.game.input.onKeyDown.add(function (event) {
+				if(event.keyCode == 83){
+					this.skipLevel();
+				}
+			}, this);
+		}
 		this.game.input.onKeyDown.add(function (event) {
-			if(event.keyCode == 83){
-				this.skipLevel();
+			if(event.keyCode == 27){
+				this.game.state.start('menu');
 			}
 		}, this);
+		
 		if(currentLevel != 3){
 			this.game.add.text(15,15, 'Pulsa S para pasar de nivel', this.textStyle);
 		}

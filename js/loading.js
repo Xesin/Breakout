@@ -42,11 +42,15 @@ Loading.prototype = {
 	    this.game.load.image('level2', 'img/level2.png');
 	    this.game.load.image('level3', 'img/level3.png');
 	    this.game.load.audio('hit', 'sound/hit.wav');
+	    this.game.load.audio('background', 'sound/A Journey Awaits.mp3');
 	    this.game.load.onCompleteFile.add(this.onCompleteFile, this);
 	},
 	
 	start: function () {
 		this.game.tween.add(this.porcentaje).to({alpha : 0}, 500, XEngine.Easing.Linear, true).onComplete.addOnce(function () {
+			var background = this.game.add.audio('background', true, -0.2);
+			background.persist = true;
+			background.loop(true);
 			this.game.state.start('menu');
 		}, this);
 	},
