@@ -54,7 +54,7 @@ Ball.prototype.update = function () {
     
 };
     
-Ball.prototype.onCollision = function (other) {
+Ball.prototype.onOverlap = function (other) {
     if(this.alreadyCollide) return;
     var audio = this.game.add.audio('hit', true);
     audio.onComplete.addOnce(function () {
